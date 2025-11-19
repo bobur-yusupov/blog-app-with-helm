@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: {{ include "blog-app.fullname" . }}-config
+    labels:
+        {{- include "blog-app.labels" . | nindent 4}}
+data:
+    DATABASE_NAME: {{ .Values.database.name | quote }}
+    DATABASE_USER: {{ .Values.database.user | quote }}
+    DATABASE_HOST: {{ include "blog-app.fullname" . }}-postgres
+    DATABASE_PORT: "5432"
+    DJANGO_DEBUG: {{ .Values.django.debug | quote }}
+    DJANGO_ALLOWED_HOSTS: {{ .Values.django.allowedHosts | quote }}
+    POSTGRES_DB: {{ .Values.database.name | quote }}
+    POSTGRES_USER: {{ .Values.database.user | quote }}

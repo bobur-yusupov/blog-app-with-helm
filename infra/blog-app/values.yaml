@@ -1,0 +1,95 @@
+replicaCount: 
+  frontend: 2
+  backend: 2
+  postgres: 1
+
+image:
+  frontend:
+    repository: devyusupov/helm-blog-app
+    tag: 0.1.1
+    pullPolicy: IfNotPresent
+  
+  backend:
+    repository: devyusupov/helm-blog-api
+    tag: 1.0.1
+    pullPolicy: IfNotPresent
+  
+  postgres:
+    repository: postgres
+    tag: "17-alpine"
+    pullPolicy: IfNotPresent
+
+service:
+  frontend:
+    type: ClusterIP
+    port: 80
+    targetPort: 80
+  backend:
+    type: ClusterIP
+    port: 8000
+    targetPort: 8000
+  postgres:
+    type: ClusterIP
+    port: 5432
+    targetPort: 5432
+
+# This block is for setting up the ingress for more information can be found here: https://kubernetes.io/docs/concepts/services-networking/ingress/
+ingress:
+  enabled: true
+  className: nginx
+  annotations: {}
+  hosts:
+    - host: blog.local
+      paths:
+        - path: /
+          pathType: Prefix
+          service: frontend
+        - path: /api
+          pathType: Prefix
+          service: backend
+  tls: []
+
+resources:
+  frontend:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      cpu: 250m
+      memory: 256mi
+  backend:
+    limits:
+      cpu: 1000m
+      memory: 1Gi
+    requests:
+      cpu: 500m
+      memory: 512Mi
+  postgres:
+    limits:
+      cpu: 1000m
+      memory: 2Gi
+    requests:
+      cpu: 500m
+      memory: 1Gi  
+
+persistence:
+  enabled: true
+  storageClass: standard
+  accessMode: ReadWriteOnce
+  size: 10Gi
+
+database:
+  name: blogdb
+  user: bloguser
+  password: change123
+
+django:
+  secretKey: django-insecure-_a2c*_p_sfe3e*ttkqw+m_q56%eveein+70p6ba-rgi9r*!++c
+  debug: "False"
+  allowedHosts: "*"
+
+autoscaling:
+  enabled: false
+  minReplicas: 2
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 80

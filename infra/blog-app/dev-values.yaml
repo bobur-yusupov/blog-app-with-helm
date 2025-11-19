@@ -1,0 +1,28 @@
+replicaCount:
+  frontend: 1
+  backend: 1
+
+image:
+  frontend:
+    pullPolicy: Always
+  backend:
+    pullPolicy: Always
+
+django:
+  debug: "True"
+
+resources:
+  frontend:
+    limits:
+      cpu: 200m
+      memory: 256Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+  backend:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      cpu: 250m
+      memory: 256Mi
