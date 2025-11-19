@@ -1,7 +1,11 @@
-# Simple blog app
+# Blog app with Helm - Full Documentation
 
-Tech stack used
+A full-stack blog application deployed on Kubernetes using Helm charts.
 
-Backend: Django
-Frontend: React
-DB: PostgreSQL
+## Tech stack
+
+- **Backend**: Django (Python)
+- **Frontend**: React (TypeScript)
+- **Database**: PostgreSQL
+- **Container Orchestration**: Minikube (Kubernetes)
+- **Package Manager**: Helm 3
